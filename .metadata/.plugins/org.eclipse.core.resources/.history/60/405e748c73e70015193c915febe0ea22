@@ -10,7 +10,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 	Button start,net,out,abot;
 	int status,counter,cont=0,ex,ey;
 	String firstName;
-	SnakeX snakeArray[]=new SnakeX[2],tu;
+	SnakeX serpientes[]=new SnakeX[2],tu;
 	TextField text;
 	Snakes(){
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -83,17 +83,17 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		start();
 		demo=true;
 		initiated=true;
-		snakeArray[0].setPc(true);
-		snakeArray[1].setPc(true);
+		serpientes[0].setPc(true);
+		serpientes[1].setPc(true);
 		quitar();
 		requestFocus();
 		status=2;
 	}
 	private void start(){
-		snakeArray[0]=new SnakeX(50,300,0,Color.BLUE,this,1);
-		snakeArray[1]=new SnakeX(550,300,2,Color.RED,this,2);
-		snakeArray[0].setOtro(snakeArray[1]);
-		snakeArray[1].setOtro(snakeArray[0]);
+		serpientes[0]=new SnakeX(50,300,0,Color.BLUE,this,1);
+		serpientes[1]=new SnakeX(550,300,2,Color.RED,this,2);
+		serpientes[0].setOtro(serpientes[1]);
+		serpientes[1].setOtro(serpientes[0]);
 		demo=false;
 	}
 	private void add(){
@@ -133,14 +133,14 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		}
 		else if(status==2){
 			//JUGANDO
-			snakeArray[0].smart(bufer);
-			snakeArray[1].smart(bufer);
+			serpientes[0].smart(bufer);
+			serpientes[1].smart(bufer);
 		}
 		else if(status==3){
 			//TERMINADO
 			bufer.setFont(new Font("",Font.BOLD,20));
-			snakeArray[0].smart(bufer);
-			snakeArray[1].smart(bufer);
+			serpientes[0].smart(bufer);
+			serpientes[1].smart(bufer);
 			bufer.setColor(new Color(0x80,0x80,0x80,180));
 			bufer.fillRect(130,250,360,170);
 			if(tu.enemy.dead){
@@ -196,10 +196,10 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 				status=0;
 			}
 			if(initiated){
-				snakeArray[0].update();
-				snakeArray[1].update();
+				serpientes[0].update();
+				serpientes[1].update();
 			}
-			if(snakeArray[0].dead||snakeArray[1].dead)terminate();
+			if(serpientes[0].dead||serpientes[1].dead)terminate();
 		}
 		if(status==3){
 			if(esc||demo){
@@ -249,7 +249,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			if(firstName.length()==0)firstName="Desconocido";
 			aPlayer=true;
 			start();
-			tu=snakeArray[0];
+			tu=serpientes[0];
 			tu.setPc(false);
 			tu.enemy.setPc(true);
 			tu.firstName=firstName;

@@ -6,17 +6,17 @@ import java.awt.event.*;
 public class Snakes extends JFrame implements Runnable,KeyListener,ActionListener{
 	Graphics2D bufer,background,gr;
 	Image ibufer,head,grass,ibackground;
-	boolean left,right,up,down,esc,aPlayer,demo,enter,initiated;
+	boolean left,der,arr,aba,esc,aPlayer,demo,enter,initiated;
 	Button start,net,out,abot;
 	int status,counter,cont=0,ex,ey;
 	String firstName;
-	SnakeX snakeArray[]=new SnakeX[2],tu;
-	TextField text;
+	SerpienteX serpientes[]=new SerpienteX[2],tu;
+	TextField texto;
 	Snakes(){
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         @SuppressWarnings("unused")
 		GraphicsDevice device = env.getDefaultScreenDevice();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setIgnoreRepaint(true);
 		setTitle("Snakes");
 		setUndecorated(true);
@@ -41,11 +41,11 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		net=new Button("Net Game");
 		out=new Button("Exit");
 		abot=new Button("About");
-		text=new TextField("First Name");
-		text.setBounds(getWidth()/2-60,ey+245,120,30);
-		text.setBackground(Color.RED);
-		text.setForeground(Color.WHITE);
-		start.setBounds(text.getX(),text.getY()+40,120,30);
+		texto=new TextField("First Name");
+		texto.setBounds(getWidth()/2-60,ey+245,120,30);
+		texto.setBackground(Color.RED);
+		texto.setForeground(Color.WHITE);
+		start.setBounds(texto.getX(),texto.getY()+40,120,30);
 		net.setBounds(start.getX(),start.getY()+40,120,30);
 		net.setEnabled(false);
 		abot.setBounds(start.getX(),net.getY()+40,120,30);
@@ -64,12 +64,12 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		net.repaint();
 		abot.repaint();
 		out.repaint();
-		text.repaint();
+		texto.repaint();
 		start.requestFocus();
 		net.requestFocus();
 		abot.requestFocus();
 		out.requestFocus();
-		text.requestFocus();
+		texto.requestFocus();
 	}
 	private Image obtImagen(String img){
 		Toolkit tk=Toolkit.getDefaultToolkit();
@@ -83,17 +83,17 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		start();
 		demo=true;
 		initiated=true;
-		snakeArray[0].setPc(true);
-		snakeArray[1].setPc(true);
+		serpientes[0].setPc(true);
+		serpientes[1].setPc(true);
 		quitar();
 		requestFocus();
 		status=2;
 	}
 	private void start(){
-		snakeArray[0]=new SnakeX(50,300,0,Color.BLUE,this,1);
-		snakeArray[1]=new SnakeX(550,300,2,Color.RED,this,2);
-		snakeArray[0].setOtro(snakeArray[1]);
-		snakeArray[1].setOtro(snakeArray[0]);
+		serpientes[0]=new SerpienteX(50,300,0,Color.BLUE,this,1);
+		serpientes[1]=new SerpienteX(550,300,2,Color.RED,this,2);
+		serpientes[0].setOtro(serpientes[1]);
+		serpientes[1].setOtro(serpientes[0]);
 		demo=false;
 	}
 	private void add(){
@@ -101,7 +101,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		add(net);
 		add(abot);
 		add(out);
-		add(text);
+		add(texto);
 		counter=0;
 	}
 	private void quitar(){
@@ -109,7 +109,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		remove(net);
 		remove(abot);
 		remove(out);
-		remove(text);
+		remove(texto);
 	}
 	public void smart(){
 		for(int i=0;i<12;i++){
@@ -133,14 +133,14 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		}
 		else if(status==2){
 			//JUGANDO
-			snakeArray[0].smart(bufer);
-			snakeArray[1].smart(bufer);
+			serpientes[0].smart(bufer);
+			serpientes[1].smart(bufer);
 		}
 		else if(status==3){
 			//TERMINADO
 			bufer.setFont(new Font("",Font.BOLD,20));
-			snakeArray[0].smart(bufer);
-			snakeArray[1].smart(bufer);
+			serpientes[0].smart(bufer);
+			serpientes[1].smart(bufer);
 			bufer.setColor(new Color(0x80,0x80,0x80,180));
 			bufer.fillRect(130,250,360,170);
 			if(tu.enemy.dead){
@@ -181,13 +181,13 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 				if(left){
 					if(tu.dir!=0)tu.dir=2;
 				}
-				else if(right){
+				else if(der){
 					if(tu.dir!=2)tu.dir=0;
 				}
-				else if(up){
+				else if(arr){
 					if(tu.dir!=1)tu.dir=3;
 				}
-				else if(down){
+				else if(aba){
 					if(tu.dir!=3)tu.dir=1;
 				}
 			}
@@ -196,10 +196,10 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 				status=0;
 			}
 			if(initiated){
-				snakeArray[0].update();
-				snakeArray[1].update();
+				serpientes[0].update();
+				serpientes[1].update();
 			}
-			if(snakeArray[0].dead||snakeArray[1].dead)terminate();
+			if(serpientes[0].dead||serpientes[1].dead)terminate();
 		}
 		if(status==3){
 			if(esc||demo){
@@ -227,9 +227,9 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 	public void keyReleased(KeyEvent evt){
 		int key=evt.getKeyCode();
 		if(key==KeyEvent.VK_LEFT)left=false;
-		if(key==KeyEvent.VK_RIGHT)right=false;
-		if(key==KeyEvent.VK_UP)up=false;
-		if(key==KeyEvent.VK_DOWN)down=false;
+		if(key==KeyEvent.VK_RIGHT)der=false;
+		if(key==KeyEvent.VK_UP)arr=false;
+		if(key==KeyEvent.VK_DOWN)aba=false;
 		if(key==KeyEvent.VK_ESCAPE)esc=false;
 		if(key==KeyEvent.VK_ENTER)enter=false;
 	}
@@ -237,19 +237,19 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		if(status==2)initiated=true;
 		int key=evt.getKeyCode();
 		if(key==KeyEvent.VK_LEFT)left=true;
-		if(key==KeyEvent.VK_RIGHT)right=true;
-		if(key==KeyEvent.VK_UP)up=true;
-		if(key==KeyEvent.VK_DOWN)down=true;
+		if(key==KeyEvent.VK_RIGHT)der=true;
+		if(key==KeyEvent.VK_UP)arr=true;
+		if(key==KeyEvent.VK_DOWN)aba=true;
 		if(key==KeyEvent.VK_ESCAPE)esc=true;
 		if(key==KeyEvent.VK_ENTER)enter=true;
 	}
 	public void keyTyped(KeyEvent evt){}
 	public void aPlayer(){
-		firstName=text.getText();
+		firstName=texto.getText();
 			if(firstName.length()==0)firstName="Desconocido";
 			aPlayer=true;
 			start();
-			tu=snakeArray[0];
+			tu=serpientes[0];
 			tu.setPc(false);
 			tu.enemy.setPc(true);
 			tu.firstName=firstName;
