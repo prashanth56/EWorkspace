@@ -79,7 +79,7 @@ public class Snake{
 		}
 		if(temp!=-1){
 			int high=0,dist,index=0,n,vx=0,vy=0;
-			Part point=null,point2=null;
+			Part point=null,punto2=null;
 			for(int i=0;i<cont;i++){
 				dist=0;
 				if(direction[i]==1){
@@ -103,14 +103,14 @@ public class Snake{
 					point=new Part(point.x+vx,point.y+vy,null,null);
 					if(colision(point))break;
 					dist++;
-					point2=point;
+					punto2=point;
 				}
 				n=0;
-				point=point2;
+				point=punto2;
 				for(int m=point.y-w;m<=point.y+w;m+=w){
 					for(int mn=point.x-w;mn<=point.x+w;mn+=w){
-						point2=new Part(mn,m,null,null);
-						if(!colision(point2))n++;
+						punto2=new Part(mn,m,null,null);
+						if(!colision(punto2))n++;
 					}
 				}
 				if(n<3)dist=0;

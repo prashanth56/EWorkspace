@@ -99,17 +99,17 @@ public class SnakeX{
 				for(int tj=ty/w-1;tj<=ty/w+1;tj++)
 					if(!colision(tx,ty))cuenta++;
 			val[i]+=cuenta;
-			int matrixT[][]=getMatrix();
+			int matrizT[][]=getMatrix();
 			int tmArea;
 			while(!colision(tx,ty)){
-				matrixT[tx/w][ty/w]=yo;
+				matrizT[tx/w][ty/w]=yo;
 				tx+=vx;
 				ty+=vy;
 			}
 			try{
-				matrixT[tx/w][ty/w]=yo;
+				matrizT[tx/w][ty/w]=yo;
 			}catch(Exception ex){}
-			tmArea=areaE(-1,-1,matrixT,enemy);
+			tmArea=areaE(-1,-1,matrizT,enemy);
 			if(tmArea<areae/2){
 				val[i]+=50;
 				change=true;

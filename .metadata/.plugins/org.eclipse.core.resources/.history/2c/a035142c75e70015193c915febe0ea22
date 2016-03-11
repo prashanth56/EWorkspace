@@ -25,7 +25,7 @@ public class SnakeX{
 		enemy=enem;
 	}
 	public void update(){
-		if(pc)move();
+		if(pc)mover();
 		if(dir==0)px+=w;
 		else if(dir==1)py+=w;
 		else if(dir==2)px-=w;
@@ -40,11 +40,11 @@ public class SnakeX{
 		if(tx<0||ty<0||tx>600-w||ty>600-w)return true;
 		return Parts[tx/w][ty/w]!=0||enemy.Parts[tx/w][ty/w]!=0;
 	}
-	protected void move(){
-		int ndir=direction();
+	protected void mover(){
+		int ndir=direccion();
 		int tx=px,ty=py;
 		if(!separate)
-			separate=verification();
+			separate=verificar();
 		if(dir==0)tx+=w;
 		else if(dir==1)ty+=w;
 		else if(dir==2)tx-=w;
@@ -52,20 +52,20 @@ public class SnakeX{
 		if(colision(tx,ty)||(Math.random()*100>90&&!separate)||uarea-10>area(tx,ty)||change)dir=ndir!=-1?ndir:dir;
 		change=false;
 	}
-	public boolean verification(){
-		int matrix[][]=getMatrix();
-		matrix[px/w][py/w]=0;
-		return verification(matrix,px,py,enemy.px,enemy.py);
+	public boolean verificar(){
+		int matriz[][]=obtenerMatriz();
+		matriz[px/w][py/w]=0;
+		return verificar(matriz,px,py,enemy.px,enemy.py);
 	}
-	public boolean verification(int matrix[][],int ox,int oy,int dx,int dy){
+	public boolean verificar(int matriz[][],int ox,int oy,int dx,int dy){
 		if(ox==dx&&oy==dy)return false;
-		if(areaColision(ox,oy,matrix))return true;
-		matrix[ox/w][oy/w]=yo;
-		return verification(matrix,ox+w,oy,dx,dy)&&verification(matrix,ox-w,oy,dx,dy)&&verification(matrix,ox,oy+w,dx,dy)&&verification(matrix,ox,oy-w,dx,dy);
+		if(areaColision(ox,oy,matriz))return true;
+		matriz[ox/w][oy/w]=yo;
+		return verificar(matriz,ox+w,oy,dx,dy)&&verificar(matriz,ox-w,oy,dx,dy)&&verificar(matriz,ox,oy+w,dx,dy)&&verificar(matriz,ox,oy-w,dx,dy);
 	}
-	public int direction(){
-		int areae=areaE(-1,-1,getMatrix(),enemy);
-		int lista[]=new int[4],val[]=new int[4],newValue[]=new int[4],act2=0,act=0,ndir=-1;
+	public int direccion(){
+		int areae=areaE(-1,-1,obtenerMatriz(),enemy);
+		int lista[]=new int[4],val[]=new int[4],nueva[]=new int[4],act2=0,act=0,ndir=-1;
 		if(!colision(px+w,py)){
 			lista[act]=0;
 			act++;
@@ -99,17 +99,17 @@ public class SnakeX{
 				for(int tj=ty/w-1;tj<=ty/w+1;tj++)
 					if(!colision(tx,ty))cuenta++;
 			val[i]+=cuenta;
-			int matrixT[][]=getMatrix();
+			int matrizT[][]=obtenerMatriz();
 			int tmArea;
 			while(!colision(tx,ty)){
-				matrixT[tx/w][ty/w]=yo;
+				matrizT[tx/w][ty/w]=yo;
 				tx+=vx;
 				ty+=vy;
 			}
 			try{
-				matrixT[tx/w][ty/w]=yo;
+				matrizT[tx/w][ty/w]=yo;
 			}catch(Exception ex){}
-			tmArea=areaE(-1,-1,matrixT,enemy);
+			tmArea=areaE(-1,-1,matrizT,enemy);
 			if(tmArea<areae/2){
 				val[i]+=50;
 				change=true;
@@ -117,26 +117,26 @@ public class SnakeX{
 			
 			if(cuenta<2)if(lista[i]==dir)change=true;
 		}
-		int high=-1;
+		int mayor=-1;
 		for(int i=0;i<act;i++){
 			if(act==0){
-				high=val[i];
-				newValue[act2]=lista[i];
+				mayor=val[i];
+				nueva[act2]=lista[i];
 				continue;
 			}
-			if(val[i]>high){
+			if(val[i]>mayor){
 				act2=0;
-				newValue[act2]=lista[i];
-				high=val[i];
+				nueva[act2]=lista[i];
+				mayor=val[i];
 			}
-			else if(val[i]==high){
+			else if(val[i]==mayor){
 				act2++;
-				newValue[act2]=lista[i];
+				nueva[act2]=lista[i];
 			}
 		}
 		if(act>0){
-			uarea=high;
-			ndir=newValue[(int)(Math.random()*(act2+1))];
+			uarea=mayor;
+			ndir=nueva[(int)(Math.random()*(act2+1))];
 		}
 		return ndir;
 	}
@@ -155,35 +155,35 @@ public class SnakeX{
 				if(Parts[i][j]==yo)tam++;
 		return tam;
 	}
-	protected int[][] getMatrix(){
-		int matrix[][]=new int[Parts.length][Parts[0].length],i,j;
+	protected int[][] obtenerMatriz(){
+		int matriz[][]=new int[Parts.length][Parts[0].length],i,j;
 		for(i=0;i<Parts.length;i++)
 			for(j=0;j<Parts[i].length;j++)
-				matrix[i][j]=Parts[i][j]!=0?Parts[i][j]:enemy.Parts[i][j];
-		return matrix;
+				matriz[i][j]=Parts[i][j]!=0?Parts[i][j]:enemy.Parts[i][j];
+		return matriz;
 	}
-	protected int areaE(int tx,int ty,int matrix[][],SnakeX dest){
+	protected int areaE(int tx,int ty,int matriz[][],SnakeX dest){
 		if(dest.px<0||dest.py<0||dest.px>600-w||dest.py>600-w)return 0;
-		matrix[dest.px/w][dest.py/w]=0;
-		if(tx!=-1&&ty!=-1)matrix[tx/w][ty/w]=yo;
-		return area(dest.px,dest.py,matrix,0);
+		matriz[dest.px/w][dest.py/w]=0;
+		if(tx!=-1&&ty!=-1)matriz[tx/w][ty/w]=yo;
+		return area(dest.px,dest.py,matriz,0);
 	}
 	protected int area(int tx,int ty){
-		int matrix[][]=getMatrix();
-		return area(tx,ty,matrix,0);
+		int matriz[][]=obtenerMatriz();
+		return area(tx,ty,matriz,0);
 	}
-	protected int area(int tx,int ty,int matrix[][],int area){
-		if(areaColision(tx,ty,matrix))return area;
-		matrix[tx/w][ty/w]=yo;
+	protected int area(int tx,int ty,int matriz[][],int area){
+		if(areaColision(tx,ty,matriz))return area;
+		matriz[tx/w][ty/w]=yo;
 		area++;
-		area=area(tx+w,ty,matrix,area);
-		area=area(tx-w,ty,matrix,area);
-		area=area(tx,ty+w,matrix,area);
-		area=area(tx,ty-w,matrix,area);
+		area=area(tx+w,ty,matriz,area);
+		area=area(tx-w,ty,matriz,area);
+		area=area(tx,ty+w,matriz,area);
+		area=area(tx,ty-w,matriz,area);
 		return area;
 	}
-	protected boolean areaColision(int tx,int ty,int matrix[][]){
+	protected boolean areaColision(int tx,int ty,int matriz[][]){
 		if(tx<0||ty<0||tx>600-w||ty>600-w)return true;
-		return matrix[tx/w][ty/w]!=0;
+		return matriz[tx/w][ty/w]!=0;
 	}
 }

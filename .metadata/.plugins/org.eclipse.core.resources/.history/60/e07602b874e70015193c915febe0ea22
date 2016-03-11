@@ -41,7 +41,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		net=new Button("Net Game");
 		out=new Button("Exit");
 		abot=new Button("About");
-		text=new TextField("Name");
+		text=new TextField("First Name");
 		text.setBounds(getWidth()/2-60,ey+245,120,30);
 		text.setBackground(Color.RED);
 		text.setForeground(Color.WHITE);

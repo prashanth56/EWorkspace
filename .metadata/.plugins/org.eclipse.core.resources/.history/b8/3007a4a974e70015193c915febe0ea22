@@ -41,7 +41,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		net=new Button("Net Game");
 		out=new Button("Exit");
 		abot=new Button("About");
-		text=new TextField("Name");
+		text=new TextField("First Name");
 		text.setBounds(getWidth()/2-60,ey+245,120,30);
 		text.setBackground(Color.RED);
 		text.setForeground(Color.WHITE);
@@ -122,7 +122,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			drawHome();
 		}
 		else if(status==1){
-			//abort
+			//abot
 			drawHome();
 			bufer.setColor(Color.BLACK);
 			bufer.setFont(new Font("",Font.PLAIN,12));
@@ -132,12 +132,12 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			bufer.drawString("left data",180,360);
 		}
 		else if(status==2){
-			//PLAY
+			//JUGANDO
 			snakeArray[0].smart(bufer);
 			snakeArray[1].smart(bufer);
 		}
 		else if(status==3){
-			//TERMINTE
+			//TERMINADO
 			bufer.setFont(new Font("",Font.BOLD,20));
 			snakeArray[0].smart(bufer);
 			snakeArray[1].smart(bufer);

@@ -41,7 +41,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		net=new Button("Net Game");
 		out=new Button("Exit");
 		abot=new Button("About");
-		text=new TextField("Name");
+		text=new TextField("First Name");
 		text.setBounds(getWidth()/2-60,ey+245,120,30);
 		text.setBackground(Color.RED);
 		text.setForeground(Color.WHITE);
@@ -85,7 +85,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		initiated=true;
 		snakeArray[0].setPc(true);
 		snakeArray[1].setPc(true);
-		remove();
+		quitar();
 		requestFocus();
 		status=2;
 	}
@@ -104,7 +104,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		add(text);
 		counter=0;
 	}
-	private void remove(){
+	private void quitar(){
 		remove(start);
 		remove(net);
 		remove(abot);
@@ -122,7 +122,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			drawHome();
 		}
 		else if(status==1){
-			//abort
+			//abot
 			drawHome();
 			bufer.setColor(Color.BLACK);
 			bufer.setFont(new Font("",Font.PLAIN,12));
@@ -132,12 +132,12 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			bufer.drawString("left data",180,360);
 		}
 		else if(status==2){
-			//PLAY
+			//JUGANDO
 			snakeArray[0].smart(bufer);
 			snakeArray[1].smart(bufer);
 		}
 		else if(status==3){
-			//TERMINTE
+			//TERMINADO
 			bufer.setFont(new Font("",Font.BOLD,20));
 			snakeArray[0].smart(bufer);
 			snakeArray[1].smart(bufer);
@@ -211,16 +211,16 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 		}
 	}
 	public void run(){
-		long tempMain,temp,max=40;
+		long tiempo,temp,max=40;
 		while(true){
-			tempMain=System.currentTimeMillis();
+			tiempo=System.currentTimeMillis();
 			update();
 			smart();
-			temp=System.currentTimeMillis()-tempMain;
-			tempMain =max-temp;
+			temp=System.currentTimeMillis()-tiempo;
+			tiempo=max-temp;
 			try{
-				//System.out.println(tempMain);
-				if(tempMain>0)Thread.sleep(tempMain);
+				//System.out.println(tiempo);
+				if(tiempo>0)Thread.sleep(tiempo);
 			}catch(Exception e){}
 		}
 	}
@@ -246,7 +246,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 	public void keyTyped(KeyEvent evt){}
 	public void aPlayer(){
 		firstName=text.getText();
-			if(firstName.length()==0)firstName="Unknown";
+			if(firstName.length()==0)firstName="Desconocido";
 			aPlayer=true;
 			start();
 			tu=snakeArray[0];
@@ -254,7 +254,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			tu.enemy.setPc(true);
 			tu.firstName=firstName;
 			tu.enemy.firstName="PC";
-			remove();
+			quitar();
 			requestFocus();
 			status=2;
 	}
@@ -267,7 +267,7 @@ public class Snakes extends JFrame implements Runnable,KeyListener,ActionListene
 			aPlayer=false;
 		}
 		else if(src==abot){
-			remove();
+			quitar();
 			add(out);
 			status=1;
 		}
